@@ -1,0 +1,1 @@
+nohup gunicorn -w 4 -b 0.0.0.0:8082 main:app > gunicorn.log 2>&1 &

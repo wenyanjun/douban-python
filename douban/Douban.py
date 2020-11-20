@@ -8,7 +8,7 @@ import requests
 from lxml import html
 import json
 import re
-class Douban:
+class Douban():
 
     def __init__(self):
         self.url = ''
@@ -30,9 +30,8 @@ class Douban:
             city = 'guangzhou'
         # 正在上映
         self.url = 'https://movie.douban.com/cinema/nowplaying/' + str(city)
-        print(self.url)
 
-        result = self.getHtml(self.url)
+        result = self.getHtml()
         list = result.xpath('//div[@id="nowplaying"]//ul[@class="lists"]/li')
         arr = []
         for i in list:
@@ -66,7 +65,7 @@ class Douban:
             city = 'guangzhou'
 
         self.url = 'https://movie.douban.com/cinema/later/' + str(city)
-        result = self.getHtml(self.url)
+        result = self.getHtml()
         list = result.xpath('//div[@id="showing-soon"]/div')
         arr = []
         for i in list:
@@ -121,7 +120,7 @@ class Douban:
             return self.json_error('id不能为空')
 
         self.url = 'https://movie.douban.com/subject/' + id + '/?from=playing_poster'
-        result = self.getHtml(self.url)
+        result = self.getHtml()
         dic = {}
         # 标题
         title = result.xpath('//div[@id="content"]/h1/span/text()')
@@ -173,7 +172,6 @@ class Douban:
         if page < 0:
             page = 0
         self.url = 'https://movie.douban.com/subject/'+ id +'/reviews?start=' + str(page*20)
-        print(self.url)
         result = self.getHtml()
 
         # 总数
@@ -283,7 +281,6 @@ class Douban:
             'limit': 25,
             'subject': arr
         }
-        print(obj)
         return self.json_success(obj)
 
     # search
@@ -336,4 +333,4 @@ class Douban:
         return self.json_success(obj)
 if __name__ == '__main__':
     d = Douban()
-    d.search()
+    d.nowPlaying()
